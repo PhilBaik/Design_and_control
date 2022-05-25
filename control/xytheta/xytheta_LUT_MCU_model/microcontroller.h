@@ -35,7 +35,7 @@ void init_software(void);
 #define N1   1
 #define N2	 2
 #define p    2.0
-#define kg   10100
+#define kg   3000
 #define f_cutoff 1.5
 
 #define DTDIV2  100e-6  // TS/2
