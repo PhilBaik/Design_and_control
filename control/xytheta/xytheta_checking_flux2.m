@@ -2,14 +2,14 @@ clc;
 clear;
 
 %%%% getting path
-addpath(genpath('xytheta'));
+% addpath(genpath('xytheta'));
 
 % load ('femm_output.mat')
 % load ('test_revised05.09.mat')
 
 % load('femm_out_sensor48_x[0,1]_y[2,10].mat')
 
-load('femm_output.mat')
+% load('femm_output.mat')
 
 
 % a1a2a3a4 b1b2b3b4 c1c2c3c4
@@ -142,26 +142,26 @@ for(r = theta_r_index)
     end
 end
 
-f2 = zeros(length(x_index),2);
-
-for m = x_index
-        f2(m,1) = figure; %a
-        hold on;
-        legend("off")
-        legend("show",Location="best")
-        title(['xhat ','x = ', num2str(x_position(1,m)),  '  sensor r=  ',num2str(sensor_r),' a'])
-        f2(m,2) = figure;
-        hold on;
-        legend("off")
-        legend("show",Location="best")
-        title(['yhat ','x = ', num2str(x_position(1,m)),  '  sensor r=  ',num2str(sensor_r),' a'])
-    for n = y_index
-        figure(f2(m,1));
-        plot(theta_r_in,xhat(:,m,n),'DisplayName',['y = ',num2str(y_position(1,n))])
-        figure(f2(m,2));
-        plot(theta_r_in,yhat(:,m,n),'DisplayName',['y = ',num2str(y_position(1,n))])
-    end
-end
+% f2 = zeros(length(x_index),2);
+% 
+% for m = x_index
+%         f2(m,1) = figure; %a
+%         hold on;
+%         legend("off")
+%         legend("show",Location="best")
+%         title(['xhat ','x = ', num2str(x_position(1,m)),  '  sensor r=  ',num2str(sensor_r),' a'])
+%         f2(m,2) = figure;
+%         hold on;
+%         legend("off")
+%         legend("show",Location="best")
+%         title(['yhat ','x = ', num2str(x_position(1,m)),  '  sensor r=  ',num2str(sensor_r),' a'])
+%     for n = y_index
+%         figure(f2(m,1));
+%         plot(theta_r_in,xhat(:,m,n),'DisplayName',['y = ',num2str(y_position(1,n))])
+%         figure(f2(m,2));
+%         plot(theta_r_in,yhat(:,m,n),'DisplayName',['y = ',num2str(y_position(1,n))])
+%     end
+% end
 
 hi = figure;
 hold on;
