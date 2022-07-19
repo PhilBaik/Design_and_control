@@ -1,0 +1,76 @@
+Netlist
+
+Exported from xytheta.sch at 2022. 7. 14. 오후 9:59
+
+EAGLE Version 9.6.2 Copyright (c) 1988-2020 Autodesk, Inc.
+
+Net      Part     Pad      Pin        Sheet
+
+N$1      IC1      3        OUT        1
+         SV1      1        1          1
+
+N$2      IC2      3        OUT        1
+         SV1      2        2          1
+
+N$3      IC3      3        OUT        1
+         SV1      3        3          1
+
+N$4      IC4      3        OUT        1
+         SV1      4        4          1
+
+N$5      IC5      3        OUT        1
+         SV1      5        5          1
+
+N$6      IC6      3        OUT        1
+         SV1      6        6          1
+
+N$7      IC7      3        OUT        1
+         SV1      7        7          1
+
+N$8      IC8      3        OUT        1
+         SV1      8        8          1
+
+N$9      IC9      3        OUT        1
+         SV1      9        9          1
+
+N$10     IC10     3        OUT        1
+         SV1      10       10         1
+
+N$11     IC11     3        OUT        1
+         SV1      11       11         1
+
+N$12     IC12     3        OUT        1
+         SV1      12       12         1
+
+N$14     C1       1        1          1
+         C2       1        1          1
+         IC1      1        VCC        1
+         IC10     1        VCC        1
+         IC11     1        VCC        1
+         IC12     1        VCC        1
+         IC2      1        VCC        1
+         IC3      1        VCC        1
+         IC4      1        VCC        1
+         IC5      1        VCC        1
+         IC6      1        VCC        1
+         IC7      1        VCC        1
+         IC8      1        VCC        1
+         IC9      1        VCC        1
+         U$1      P$2      VCC        1
+
+N$15     C1       2        2          1
+         C2       2        2          1
+         IC1      2        GND        1
+         IC10     2        GND        1
+         IC11     2        GND        1
+         IC12     2        GND        1
+         IC2      2        GND        1
+         IC3      2        GND        1
+         IC4      2        GND        1
+         IC5      2        GND        1
+         IC6      2        GND        1
+         IC7      2        GND        1
+         IC8      2        GND        1
+         IC9      2        GND        1
+         U$1      P$1      GND        1
+
