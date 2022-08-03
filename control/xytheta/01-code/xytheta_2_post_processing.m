@@ -3,7 +3,7 @@ clear;
 close all;
 
 %% loading & enable check 
-load('femm_output_sensor_r48_air_20220803_1857.mat')
+load('femm_output_sensor_r43_air_20220803_2122.mat')
 save_enable = 1; % if you are going to save the data post-processed
 figure_enable = 1;
 

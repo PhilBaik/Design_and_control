@@ -4,7 +4,7 @@
 clc;
 clear;
 
-load("xytheta_output_sensor_r48_air_kg6266_20220803_2039.mat")
+load("xytheta_output_sensor_r43_air_kg2838_20220803_2140.mat")
 close all;
 %% Check whether x1, y0 corresponds to x=1, y=0
 x1 = x_mid+2;
@@ -296,7 +296,7 @@ ylabel(ylatex,'Interpreter','latex','FontSize',15)
 xlatex = '${\theta}_r[deg]$';
 xlabel(xlatex,'Interpreter','latex','FontSize',15)
 
-ylim([-1, 1])
+ylim([-3, 3])
 xlim([0,360])
 
 leg_abc = legend('$\hat{\theta}_r$','${\theta}_1$','${\theta}_2$','Location','northoutside','Numcolumns',3);
