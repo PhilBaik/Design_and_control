@@ -16,7 +16,7 @@ defpos = get(0,'defaultFigurePosition');
 set(0,'defaultFigurePosition', [defpos(1) defpos(2) width*100, height*100]);
 set(0,'DefaultFigureColor', [1 1 1])
 
-load_file = 'all_solve_data_16.mat'; %%%choose the file
+load_file = 'all_solve_data_15_better.mat'; %%%choose the file
 % load all_solve_data_1
 % load all_solve_data_2
 % load all_solve_data_3
@@ -132,8 +132,8 @@ end
 [best_cost,best_design]=min(temp_cost)
 Best_Total_THD=all_solve_data(best_design).EM_output(best_design).Total_THD
 Best_Total_volume=all_solve_data(best_design).EM_output(best_design).Total_volume
-%% 
-THD_PM_figure = figure;
+%% 1 THD_PM
+THD_PM_figure = figure(1);
 
 
 % EM_output.O_1=100*EM_output.Total_THD;
@@ -176,21 +176,25 @@ set(leg_MO, 'Interpreter', 'latex');
 set(leg_MO, 'FontSize', 12);
 
 
-%% cost figure
-cost_figure = figure(65);
-cost_figure.Position(3:4) = [600 400];
+%% 2_cost figure
+cost_figure = figure(2);
+cost_figure.Position(3:4) = [500 200];
 plot(cost,'black')
 ax = gca;
 xticks([1 10 20 30 40 50])
 ax.TickLabelInterpreter = 'latex';
-ax.XAxis.FontSize = 13;
+ax.XAxis.FontSize = 12;
+ax.YAxis.FontSize = 12;
 xlatex = 'Iteration';
-xlabel(xlatex,'fontname','Times','FontSize',13,'Interpreter','latex')
+xlabel(xlatex,'fontname','Times','FontSize',12,'Interpreter','latex')
 ylatex = 'Cost';
-ylabel(ylatex,'FontName','Times','FontSize',13,'Interpreter','latex')
+ylabel(ylatex,'FontName','Times','FontSize',12,'Interpreter','latex')
+filename = sprintf('cost%s',load_num);
+save(filename,"cost")
 
-%% Fundamental Flux density Amplitude (target 0.08)
-amp_figure = figure(66);
+
+%% 3_Fundamental Flux density Amplitude (target 0.08)
+amp_figure = figure(3);
 amp_figure.Position(3:4) = [600 400];
 plot(Amp_fundamental*1000,'black')
 ax = gca;
@@ -207,9 +211,9 @@ Best_Total_THD;
 Best_Total_Amplitude=all_solve_data(best_design).EM_output(best_design).Amp_fundamental
 
 
-%% O1 O2 O3 plot
-full_figure = figure(200);
-full_figure.Position(3:4) = [600 400];
+%% 4_O1 O2 O3 plot
+full_figure = figure(4);
+full_figure.Position(3:4) = [500 200];
 hold on;
 plot(O_1*20)
 plot(O_2*10)
@@ -223,32 +227,33 @@ set(leg_o1o2o3, 'FontSize', 12);
 % weights.w_volume=10;
 % weights.w_amp=20000;
 
-%% three y axis plot( !!! Import addaxis6 folder)
-three_fig = figure(700)
+%% 5_three y axis plot( !!! Import addaxis6 folder)
+three_fig = figure(5)
 x1 = 1:1:50;
 three_fig.Position(3:4) = [500 200];
-plot(x1,Total_THD,'Color','k','linewidth',2);
+plot(x1,Total_THD*100,'Color','k','linewidth',1);
 grid on;
 
-xlim([1,50])
+xlim([0,50])
 ax = gca;
-xticks([1 10 20 30 40 50])
+xticks([ 10 20 30 40 50])
 ax.TickLabelInterpreter = 'latex';
 ax.XAxis.FontSize = 12;
 ax.YAxis.FontSize = 12;
 xlatex = 'Iteration';
 xlabel(xlatex,'fontname','Times','FontSize',12,'Interpreter','latex')
 
-addaxis(x1,Total_mag_volume*10^9*37.16/1.047,[0 150],'Color','#D95319','linewidth',2);
-addaxis(x1,Amp_fundamental,[0 0.15],'Color','#0072BD','linewidth',2)
+addaxis(x1,Total_mag_volume*10^9*37.16/1.047,[0 200],'Color','#D95319','linewidth',1);
+addaxis(x1,Amp_fundamental*1000,[0 150],'Color','#0072BD','linewidth',1)
 
-addaxislabel(1,'THD')
-addaxislabel(2,'PM Volume')
-addaxislabel(3,'Fundamental Amplitude')
+addaxislabel(1,'THD $[\%]$')
+addaxislabel(2,'PM Volume $[mm^3]$')
+addaxislabel(3,'Fundamental Amplitude $[mT]$')
 box on;
 hl = legend('THD','PM Volume','Fundamental Amplitude');
 hl.FontName = 'Times'
 hl.FontSize = 12;
+
 
 %% best txt
 best_input=all_solve_data(best_design).EM_input(best_design)
@@ -262,6 +267,44 @@ Best_table = table(Best_Category,Value);
 % Best_O_1= all_solve_data(best_design).EM_output(best_design).O_1
 % Best_O_2= all_solve_data(best_design).EM_output(best_design).O_2
 % Best_O_3= all_solve_data(best_design).EM_output(best_design).O_3
+
+%% 20_cost full figure
+load("cost14.mat")
+cost_sintered = cost;
+load("cost15_better.mat")
+cost_ferrite = cost;
+load("cost16.mat")
+cost_bonded = cost;
+
+cost_full_figure = figure(20);
+cost_full_figure.Position(3:4) = [500 200];
+hold on;
+plot(cost_sintered,'LineWidth',2)
+plot(cost_bonded,'LineWidth',2)
+plot(cost_ferrite,'LineWidth',2)
+box on;
+grid on;
+
+xlatex = 'Iteration';
+xlabel(xlatex,'fontname','Times','FontSize',12,'Interpreter','latex')
+ylatex = 'Cost';
+ylabel(ylatex,'FontName','Times','FontSize',12,'Interpreter','latex')
+ax = gca;
+
+ax.YAxis.FontSize = 12;
+ax.YAxis.FontName = 'Times'
+ax.XAxis.FontSize = 12;
+ax.XAxis.FontName = 'Times'
+
+leg_cost= legend('Sintered NdFeB','Bonded NdFeB','Ferrite','Location','northeast','Numcolumns',1);
+set(leg_cost, 'Interpreter', 'latex');
+set(leg_cost, 'FontSize', 12);
+set(leg_cost, 'FontName', 'Times');
+
+% weights.w_THD=20;
+% weights.w_volume=10;
+% weights.w_amp=20000;
+
 %%
 filename1=getname(THD_PM_figure);
 filename2=getname(cost_figure);
@@ -269,6 +312,7 @@ filename3=getname(amp_figure);
 filename4=getname(full_figure);
 filename5=getname(Best_table);
 filename6=getname(three_fig);
+filename7=getname(cost_full_figure);
 %% save
 if(save_enable==1)
 filename = sprintf('fig%s_%s_%s%s',load_num,filename1,date,save_format);
@@ -289,6 +333,10 @@ if ~exist(dirname, 'dir')
    mkdir(dirname)
 end
 movefile('fig*', dirname);
+
+filename = sprintf('fig_%s_%s%s',filename7,date,save_format);
+exportgraphics(cost_full_figure,filename,'Resolution',save_resolution)
+
 close all hidden
 end
 
