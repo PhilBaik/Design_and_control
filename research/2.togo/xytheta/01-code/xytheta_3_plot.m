@@ -4,13 +4,13 @@
 clc;
 clear;
 
-load("xytheta_output_sensor_r43_air_kg2838_20220803_2140.mat")
+load("xytheta_output_sensor_r48_air_kg39850_20220829_1445.mat")
 close all;
 %% Check whether x1, y0 corresponds to x=1, y=0
 x1 = x_mid+2;
 y0 = y_mid;
 date = datestr(now,'yyyymmdd_HHMM');
-save_enable = 1;
+save_enable = 0;
 save_resolution = 2000;
 save_format = '.tiff'; %.png is okay
 %% getting abc1 abc2 and its corresponding dq for x1 y0
@@ -309,4 +309,3 @@ filename = sprintf('theta_err_x1y0_sensor_r%d_%s%s',sensor_r,date,save_format);
 exportgraphics(ax,filename,'Resolution',save_resolution)
 end
 
-close all;
