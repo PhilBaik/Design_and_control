@@ -3,9 +3,10 @@ clear;
 close all;
 
 %% loading & enable check 
-load('femm_output_sensor_r43_air_20220803_2122.mat')
+load('femm_output_sensor_r48_air_20220829_1527.mat')
 save_enable = 1; % if you are going to save the data post-processed
 figure_enable = 1;
+kg = 1;
 
 %% max min flux checking
 max_peak_flux = zeros(length(x_index),length(y_index));
@@ -81,15 +82,15 @@ end
 
 
 %% kg calculation using x_index=mid+1, y_index=mid fixed point
-
     
-    x_mid = median(x_index);
-    y_mid = median(y_index);
+    if(length(x_index)*length(y_index)~=1)
+    x_mid = floor(median(x_index));
+    y_mid = floor(median(y_index));
     checkx1y0 = x12(:,x_mid+1,y_mid)+x34(:,x_mid+1,y_mid);
     x1y0 = [x_position(1,x_mid+1),y_position(1,y_mid)]
     mean(checkx1y0);
     kg = round(norm(x1y0)/mean(checkx1y0))
-    
+    end
 
 %% xhat, yhat calculation
 for r = theta_r_index
@@ -163,6 +164,9 @@ for m = x_index
     end
 end
 end
+
+check_figure = figure;
+plot(xhat(:,1,1))
 %% save operation
 if(save_enable==1)
 date = datestr(now,'yyyymmdd_HHMM');
