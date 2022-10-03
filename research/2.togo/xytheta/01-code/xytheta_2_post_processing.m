@@ -3,8 +3,9 @@ clear;
 close all;
 
 %% loading & enable check 
-load('femm_output_sensor_r48_air_20220829_1527.mat')
-save_enable = 1; % if you are going to save the data post-processed
+% load('femm_output1_space10.0_sensor_r26.5_mag_in25.0_20221003_first_trial.mat')
+load('femm_output1_space20.0_sensor_r39.0_mag_in30.0_20221003_circular.mat')
+save_enable = 0; % if you are going to save the data post-processed
 figure_enable = 1;
 kg = 1;
 
@@ -169,9 +170,10 @@ check_figure = figure;
 plot(xhat(:,1,1))
 %% save operation
 if(save_enable==1)
-date = datestr(now,'yyyymmdd_HHMM');
-filename = sprintf('xytheta_output_sensor_r%d_air_kg%d_%s.mat',sensor_r,kg,date);
-save(filename)
+    close all;
+    date = datestr(now,'yyyymmdd_HHMM');
+    filename = sprintf('xytheta_output_sensor_r%d_air_kg%d_%s.mat',sensor_r,kg,date);
+    save(filename)
 end
 save_enable=0;
 figure_enable=0;
