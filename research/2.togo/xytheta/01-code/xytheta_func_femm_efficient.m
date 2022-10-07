@@ -1,6 +1,6 @@
 function null = xytheta_func_femm_efficient(x_position,y_position,theta_elec_in, ...
     surface_magnet_enable,D_magnet_inner,m_thickness,m_width, sensor_space, ...
-    auto, mesh_size, epoch_name)
+    auto, mesh_size, epoch_name, rotor_metal)
 
 clc;
 close all;
@@ -125,9 +125,12 @@ mi_addarc(x0-k,y0,x0+k,y0,180,5);
 mi_clearselected();
 mi_addblocklabel(0,0.5*D_rotor_inner+1);
 mi_selectlabel(0,0.5*D_rotor_inner+1);
-mi_setblockprop('M-19',auto, mesh_size, '<None>', 0, 0, 0);%metal
-% mi_setblockprop('Air',auto, mesh_size, '<None>', 0, 0, 0);%air
 
+if(rotor_metal == 1)
+    mi_setblockprop('M-19',auto, mesh_size, '<None>', 0, 0, 0);%metal
+else
+    mi_setblockprop('Air',auto, mesh_size, '<None>', 0, 0, 0);%air
+end
 %% shaft geometry and property
 x0=0;
 y0=0;
