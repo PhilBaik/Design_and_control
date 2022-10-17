@@ -4,9 +4,10 @@
 clc;
 clear;
 
-load("xytheta_output_sensor_r48_air_kg39850_20220829_1445.mat")
-close all;
+% load("xytheta_output_sensor_r48_air_kg39850_20220829_1445.mat")
+
 %% Check whether x1, y0 corresponds to x=1, y=0
+close all;
 x1 = x_mid+2;
 y0 = y_mid;
 date = datestr(now,'yyyymmdd_HHMM');
@@ -137,27 +138,25 @@ grid on;
 ax = gca;
 ax.TickLabelInterpreter='latex';
 % title(['sensor_r = ',num2str(sensor_r)])
-xlim([min(x_position),max(x_position)])
-ylim([min(y_position),max(y_position)])
+
 x_index2=x_index;
 y_index2=y_index;
-x_index2(:,1)=[];
-x_index2(:,end)=[];
-y_index2(:,1)=[];
-y_index2(:,end)=[];
+% x_index2(:,1)=[];
+% x_index2(:,end)=[];
+% y_index2(:,1)=[];
+% y_index2(:,end)=[];
 for m = x_index2
     for n = y_index2
         scatter(xhat(:,m,n),yhat(:,m,n),2,'black')
     end
 end
-mesh_x = -1.5:0.5:1.5;
-mesh_y = -1.5:0.5:1.5;
+mesh_x = x_position;
+mesh_y = y_position;
 [X Y] = meshgrid(mesh_x,mesh_y);
 scatter(X, Y,30,'red','*');
 box on
-xlim([-2,2])
-ylim([-2,2])
-
+xlim([min(x_position)-1,max(x_position)+1])
+ylim([min(y_position)-1,max(y_position)+1])
 ylatex = '$\hat{y}\,[mm]$';
 ylabel(ylatex,'Interpreter','latex')
 xlatex = '$\hat{x}\,[mm]$';
@@ -303,9 +302,12 @@ leg_abc = legend('$\hat{\theta}_r$','${\theta}_1$','${\theta}_2$','Location','no
 set(leg_abc, 'Interpreter', 'latex')
 set(leg_abc, 'FontSize', 15);
 
+fprintf('kg = %d\n',kg)
+
 if(save_enable==1)
-filename = sprintf('theta_err_x1y0_sensor_r%d_%s%s',sensor_r,date,save_format);
-% saveas(figure_err_theta,filename,'png')
-exportgraphics(ax,filename,'Resolution',save_resolution)
+    filename = sprintf('theta_err_x1y0_sensor_r%d_%s%s',sensor_r,date,save_format);
+    % saveas(figure_err_theta,filename,'png')
+    exportgraphics(ax,filename,'Resolution',save_resolution)
+    close all;
 end
 

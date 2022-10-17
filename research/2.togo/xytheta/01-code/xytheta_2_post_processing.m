@@ -1,11 +1,13 @@
 clc;
-clear;
+% clear;
 close all;
+
 
 %% loading & enable check 
 % load('femm_output1_space10.0_sensor_r26.5_mag_in25.0_20221003_first_trial.mat')
-load('femm_output1_space20.0_sensor_r39.0_mag_in30.0_20221003_circular.mat')
-save_enable = 0; % if you are going to save the data post-processed
+% load('femm_output1_space20.0_sensor_r39.0_mag_in30.0_20221003_circular.mat')
+%%
+save_enable = 1; % if you are going to save the data post-processed
 figure_enable = 1;
 kg = 1;
 
@@ -26,12 +28,13 @@ for x = x_index
 end
 
 dif_max_flux =max_peak_flux'-min_peak_flux';
+max_peak_flux
 
 max_flux = max(max(max_peak_flux));
 min_flux = min(min(min_peak_flux));
 
-fine_x= find(max_peak_flux'*25-2.5 <0,1);
-trouble_x = x_position(fine_x)
+% fine_x = find(max_peak_flux'*25-2.5 <0,1)
+% trouble_x = x_position(fine_x)
 
 %% geting alpha beta gamma
 dq = 2/3*[1 -0.5 -0.5;0 sqrt(3)/2 -sqrt(3)/2;1/2 1/2 1/2];
@@ -130,6 +133,7 @@ end
 
 %% theta figure & full figure
 if(figure_enable == 1)
+    figure(1);
 plot(theta_elec_in,theta1hat(:,1,1))
 
 % f2 = zeros(length(x_index),2);
@@ -152,28 +156,69 @@ plot(theta_elec_in,theta1hat(:,1,1))
 % %         plot(theta_r_in,yhat(:,m,n),'DisplayName',['y = ',num2str(y_position(1,n))])
 %     end
 % end
-
-full_figure = figure;
+%%
+full_figure = figure(2);
 hold on;
 grid on;
 title(['sensor_r = ',num2str(sensor_r)])
 xlim([min(x_position)-1,max(x_position)+1])
 ylim([min(y_position)-1,max(y_position)+1])
-for m = x_index
-    for n = y_index
-        scatter(xhat(:,m,n),yhat(:,m,n),2)
+    for m = x_index
+        for n = y_index
+            scatter(xhat(:,m,n),yhat(:,m,n),2)
+        end
     end
 end
+%%
+check_figure = figure(3);
+plot(xhat(:,1,1))
+title(['kg = ', num2str(kg)])
+%% MSE
+% x_ref = repmat(x_position,[length(theta_elec_in),1,length(y_position)]);
+% err_x = (xhat-x_ref).^2
+% tot_err_x = sum(err_x)
+% 
+% y_ref = repmat(y_position,[length(theta_elec_in),1,length(y_position)]);
+% err_y = (xhat-x_ref).^2
+% tot_err_y = sum(err_y)
+
+err_x = zeros(size(xhat));
+err_y = zeros(size(yhat));
+err_theta = zeros(size(theta_r_hat));
+for i = x_index
+    err_x(:,i,:) = err_x(:,i,:) + x_position(1,i);
+end
+for i = y_index
+    err_y(:,:,i) = err_y(:,:,i) + y_position(1,i);
+end
+for i = theta_r_index
+    err_theta(i,:,:) = err_theta(i,:,:) + theta_elec_in(1,i);
 end
 
-check_figure = figure;
-plot(xhat(:,1,1))
+err_x = xhat - err_x;
+err_x = err_x.^2;
+err_y = yhat - err_y;
+err_y = err_y.^2;;
+
+tot_error_x = sum(sum(sum(err_x)));
+tot_error_x = tot_error_x/(length(x_position)*length(y_position)*length(theta_elec_in));
+tot_error_y = sum(sum(sum(err_y)));
+tot_error_y = tot_error_y/(length(x_position)*length(y_position)*length(theta_elec_in));
+
+position_error = [tot_error_x,tot_error_y]
+
+% err_theta = theta_r_hat - err_theta/180*pi
+
 %% save operation
 if(save_enable==1)
     close all;
-    date = datestr(now,'yyyymmdd_HHMM');
-    filename = sprintf('xytheta_output_sensor_r%d_air_kg%d_%s.mat',sensor_r,kg,date);
-    save(filename)
+    date = datestr(now,'mmdd');
+    dirname = ['post_data_',date,'/',epoch_name,'/'];
+    mkdir(dirname)
+    filename_pre = sprintf('surface%d_space%3.1f_sensor_r%3.1f_mag_in%3.1f_%s',surface_magnet_enable,sensor_space,sensor_r,D_magnet_inner,epoch_name);
+    err_sprintf = sprintf('xytheta_post_%f_',tot_error_y)
+    filename_post = [dirname,err_sprintf,filename_pre,'_',date,'.mat'];
+    save(filename_post)
 end
 save_enable=0;
 figure_enable=0;
